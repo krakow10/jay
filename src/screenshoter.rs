@@ -14,6 +14,7 @@ use {
     thiserror::Error,
     uapi::OwnedFd,
 };
+use crate::video::gbm::GBM_BO_USE_WRITE;
 
 #[derive(Debug, Error)]
 pub enum ScreenshooterError {
@@ -65,7 +66,7 @@ pub fn take_screenshot(
         extents.height(),
         XRGB8888,
         modifiers,
-        GBM_BO_USE_RENDERING,
+        GBM_BO_USE_WRITE,
     )?;
     let fb = ctx.clone().dmabuf_fb(bo.dmabuf())?;
     fb.render_node(
